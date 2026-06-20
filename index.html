@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Automation Systems Library // CORE_ENGINE</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Space Mono for High-Density Monospace Telemetry -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Space Mono', monospace;
+            background-color: #020202;
+            color: #FFFFFF;
+        }
+        /* Custom Strict Wireframe Borders & Zero Radius Enforcements */
+        .wireframe-border {
+            border: 2px solid #111111;
+        }
+        .wireframe-border-bold {
+            border: 2px solid #FFFFFF;
+        }
+        .zero-radius {
+            border-radius: 0px !important;
+        }
+        /* Custom Scrollbars to match Monochromatic Style */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020202;
+            border-left: 1px solid #111111;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00E5FF;
+        }
+        /* Neon accents and blinking indicators */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .blink {
+            animation: blink 1.5s infinite;
+        }
+        /* Selection styling */
+        ::selection {
+            background-color: #00E5FF;
+            color: #020202;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col p-4 md:p-8 selection:bg-cyan-400 selection:text-black">
+
+    <!-- MASTER CONTAINER -->
+    <div class="max-w-7xl mx-auto w-full flex-grow flex flex-col gap-6">
+        
+        <!-- 1. INFRASTRUCTURE DUAL HEADER CONTROLLER -->
+        <header class="wireframe-border bg-black p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 zero-radius">
+            <div class="flex items-center gap-3">
+                <span class="w-3 h-3 bg-[#00E5FF] blink"></span>
+                <span class="font-bold text-lg tracking-wider">SYSTEM_LIBRARY_VAULT // GLOBAL_CORE</span>
+            </div>
+            
+            <div class="flex flex-wrap gap-2 text-xs">
+                <div class="px-3 py-1.5 wireframe-border bg-black border-[#00E5FF]/40 text-[#00E5FF] font-bold">
+                    [LIVE AGENTS: <span id="agent-count">12</span>]
+                </div>
+                <div class="px-3 py-1.5 wireframe-border bg-black border-[#00E676]/40 text-[#00E676] font-bold">
+                    [ACTIVE WORKFLOWS: <span id="workflow-count">13</span>]
+                </div>
+            </div>
+        </header>
+
+        <!-- UTILITY CONSOLE & SEARCH SEARCH -->
+        <section class="grid grid-cols-1 md:grid-cols-12 gap-2">
+            <div class="md:col-span-12 flex items-center wireframe-border bg-neutral-900 zero-radius overflow-hidden">
+                <div class="bg-neutral-800 text-neutral-400 px-4 py-3 border-r-2 border-neutral-900 text-xs font-bold shrink-0">
+                    SEARCH_QUERY >
+                </div>
+                <input 
+                    type="text" 
+                    id="search-input"
+                    placeholder="Query system identifiers, dependencies, parameters, or metadata tags..."
+                    class="w-full bg-transparent px-4 py-3 text-[#00E5FF] outline-none placeholder-neutral-600 text-sm font-semibold"
+                />
+                <button 
+                    id="clear-search" 
+                    class="hidden text-xs text-neutral-400 hover:text-white px-4 py-3 border-l-2 border-neutral-900 font-bold shrink-0"
+                >
+                    [CLEAR]
+                </button>
+            </div>
+        </section>
+
+        <!-- 2. DUAL ARCHITECTURE CORE GRID PATHWAY (FILTER CONTROLLERS) -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <!-- Agent Filter Toggle -->
+            <button 
+                id="filter-agent-btn"
+                onclick="toggleSystemType('agent')"
+                class="group relative wireframe-border bg-white text-black p-6 text-left transition-all duration-300 hover:bg-[#00E5FF]/10 hover:text-white zero-radius cursor-pointer"
+            >
+                <div class="absolute top-2 right-2 flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 bg-[#00E5FF]" id="agent-active-dot"></span>
+                    <span class="text-[10px] uppercase text-neutral-500 group-hover:text-neutral-300 tracking-wider">ACTIVE FILTER</span>
+                </div>
+                <h2 class="text-xl font-bold tracking-tight mb-2">AI AGENTS</h2>
+                <p class="text-xs text-neutral-600 group-hover:text-neutral-300 max-w-md leading-relaxed">
+                    [User-Interactive Interface Matrix]. Autonomous task solvers, natural language layers, client integrations, and prompt architectures.
+                </p>
+            </button>
+
+            <!-- Automation Filter Toggle -->
+            <button 
+                id="filter-automation-btn"
+                onclick="toggleSystemType('automation')"
+                class="group relative wireframe-border bg-white text-black p-6 text-left transition-all duration-300 hover:bg-[#00E676]/10 hover:text-white zero-radius cursor-pointer"
+            >
+                <div class="absolute top-2 right-2 flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 bg-[#00E676]" id="automation-active-dot"></span>
+                    <span class="text-[10px] uppercase text-neutral-500 group-hover:text-neutral-300 tracking-wider">ACTIVE FILTER</span>
+                </div>
+                <h2 class="text-xl font-bold tracking-tight mb-2">BACKEND AUTOMATIONS</h2>
+                <p class="text-xs text-neutral-600 group-hover:text-neutral-300 max-w-md leading-relaxed">
+                    [Programmatic Processing Pipelines]. Event-driven sequences, webhooks, database state sync loops, and cross-platform payload relays.
+                </p>
+            </button>
+
+        </section>
+
+        <!-- INTERACTIVE STATE BAR -->
+        <div class="flex items-center justify-between text-xs font-bold text-neutral-400 px-1 border-b border-neutral-900 pb-2">
+            <span id="results-count">FOUND: 25 ARCHITECTURES</span>
+            <div class="flex gap-4">
+                <button onclick="resetFilters()" class="hover:text-white underline decoration-[#00E5FF]">RESET_STATE</button>
+                <span class="text-neutral-600">|</span>
+                <span id="current-view-tag" class="text-[#00E5FF]">VIEW_ALL_NODES</span>
+            </div>
+        </div>
+
+        <!-- 3. DIRECTORY METADATA CARD ARCHITECTURE (BENTO GRID) -->
+        <main id="directory-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Programmatically Injected via core-engine -->
+        </main>
+
+        <!-- EMPTY STATE WARNING -->
+        <div id="no-results" class="hidden wireframe-border bg-neutral-900/50 p-12 text-center zero-radius">
+            <div class="text-[#00E5FF] mb-4 text-3xl font-mono">⚠️</div>
+            <p class="font-bold text-lg mb-2">NO SYSTEM IDENTIFIERS MATCHED</p>
+            <p class="text-xs text-neutral-500 max-w-md mx-auto leading-relaxed">
+                Check syntax dependencies, verify platforms keywords (e.g. n8n, OpenAI, Supabase), or reset system architecture state filters to locate active pipelines.
+            </p>
+            <button onclick="resetFilters()" class="mt-6 px-6 py-2.5 bg-white text-black font-bold text-xs wireframe-border hover:bg-[#00E5FF] transition-colors zero-radius">
+                RE-INITIALIZE DIRECTORY
+            </button>
+        </div>
+
+    </div>
+
+    <!-- METRICS & GRAPH LAB INTEGRATION (OPTIONAL ARCHITECTURAL UPGRADE VISUALIZER) -->
+    <section class="max-w-7xl mx-auto w-full mt-6 wireframe-border bg-black p-4 zero-radius">
+        <h3 class="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+            <span class="inline-block w-2 h-2 bg-[#00E5FF]"></span> LIVE ENGINE PIPELINE INTEGRITY (SANDBOX RUNS)
+        </h3>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <div class="bg-neutral-950 p-3 wireframe-border text-center">
+                <p class="text-[10px] text-neutral-500 mb-1">API RESOLUTION RATE</p>
+                <p class="text-sm font-bold text-[#00E676]">99.87%</p>
+            </div>
+            <div class="bg-neutral-950 p-3 wireframe-border text-center">
+                <p class="text-[10px] text-neutral-500 mb-1">MEDIAN DEPLOY TIME</p>
+                <p class="text-sm font-bold text-[#00E5FF]">14.2s</p>
+            </div>
+            <div class="bg-neutral-950 p-3 wireframe-border text-center">
+                <p class="text-[10px] text-neutral-500 mb-1">DATA PIPELINE LATENCY</p>
+                <p class="text-sm font-bold text-[#00E676]">45ms</p>
+            </div>
+            <div class="bg-neutral-950 p-3 wireframe-border text-center">
+                <p class="text-[10px] text-neutral-500 mb-1">SECURED TOKENS Mapped</p>
+                <p class="text-sm font-bold text-neutral-400">ISO-M312</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER SYSTEM COMPLIANCE -->
+    <footer class="max-w-7xl mx-auto w-full mt-12 py-6 border-t border-neutral-900 text-center">
+        <p class="text-[10px] text-neutral-500 leading-relaxed font-mono">
+            EDUCATIONAL PROPERTY INFRASTRUCTURE MATRIX. EXPERIMENTAL ALGORITHMIC BLUEPRINTS INVOLVED. NO GUARANTEED REVENUE SPECS OR FINANCIAL WARRANTIES DECLARED.
+        </p>
+    </footer>
+
+    <!-- ========================================================= -->
+    <!-- COMPONENT TAKEOVER PROGRESSIVE GATE MODAL -->
+    <!-- ========================================================= -->
+    <div id="takeover-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#020202]/95 backdrop-blur-sm hidden">
+        <div class="w-full max-w-lg bg-black wireframe-border border-[#00E5FF] p-6 relative zero-radius">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between border-b border-neutral-800 pb-3 mb-6">
+                <div class="flex items-center gap-2">
+                    <span class="w-3.5 h-3.5 bg-[#00E5FF] blink"></span>
+                    <h3 class="font-bold text-sm text-[#00E5FF] uppercase tracking-wider">AUTHENTICATION REQUIRED</h3>
+                </div>
+                <button onclick="closeTakeoverModal()" class="text-neutral-500 hover:text-white text-sm font-mono">[ESC]</button>
+            </div>
+
+            <!-- Modal Content & Warning -->
+            <div class="mb-6 space-y-3">
+                <div class="bg-neutral-950 p-3 border-l-2 border-amber-500 text-xs">
+                    <p class="font-bold text-white mb-1">PROTECTED METADATA ARTIFACT</p>
+                    <p class="text-neutral-400">Blueprint schemas, copy-paste prompts, parameter variables, and deployment webhooks are locked behind the diagnostic operations audit boundary.</p>
+                </div>
+                <div class="text-xs space-y-1">
+                    <p class="text-neutral-400">SYSTEM ID: <span id="modal-system-id" class="text-white font-bold"></span></p>
+                    <p class="text-neutral-400">CLASSIFICATION: <span id="modal-system-type" class="text-white font-bold uppercase"></span></p>
+                </div>
+            </div>
+
+            <!-- Interactive Intent Lead Capture Form -->
+            <form id="audit-lead-form" class="space-y-4" onsubmit="handleAuditSubmit(event)">
+                <input type="hidden" id="form-target-system">
+                
+                <div>
+                    <label class="block text-[10px] text-neutral-400 font-bold uppercase mb-1">What legacy business platforms do you run? *</label>
+                    <input 
+                        type="text" 
+                        required 
+                        id="form-legacy-stack"
+                        placeholder="e.g. HubSpot, Salesforce, Wix, Shopify..."
+                        class="w-full bg-neutral-950 border border-neutral-800 px-3 py-2 text-sm text-[#00E5FF] outline-none placeholder-neutral-700 focus:border-[#00E5FF]"
+                    >
+                </div>
+
+                <div>
+                    <label class="block text-[10px] text-neutral-400 font-bold uppercase mb-1">Your core operational bottleneck? *</label>
+                    <select 
+                        required 
+                        id="form-bottleneck"
+                        class="w-full bg-neutral-950 border border-neutral-800 px-3 py-2 text-sm text-white outline-none focus:border-[#00E5FF] zero-radius"
+                    >
+                        <option value="" disabled selected>Select priority block...</option>
+                        <option value="data-sync">Manual manual data double-entry</option>
+                        <option value="lead-nurturing">Lead response delay / Speed-to-lead</option>
+                        <option value="client-onboarding">Inefficient user onboarding loops</option>
+                        <option value="reporting">Lacking business performance reporting metrics</option>
+                        <option value="other">Other infrastructure constraint</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] text-neutral-400 font-bold uppercase mb-1">Operational Work Email Address *</label>
+                    <input 
+                        type="email" 
+                        required 
+                        id="form-email"
+                        placeholder="operator@company.com"
+                        class="w-full bg-neutral-950 border border-neutral-800 px-3 py-2 text-sm text-white outline-none placeholder-neutral-700 focus:border-[#00E5FF]"
+                    >
+                </div>
+
+                <div class="pt-2">
+                    <button 
+                        type="submit" 
+                        class="w-full bg-[#00E5FF] text-black font-bold py-3 text-xs uppercase hover:bg-white tracking-widest transition-all duration-200"
+                    >
+                        COMPLETE AUDIT & DEPLOY ARCHITECTURE
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- SUCCESS ARCHITECTURE REVELATION MODAL -->
+    <!-- ========================================================= -->
+    <div id="blueprint-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#020202]/95 backdrop-blur-sm hidden">
+        <div class="w-full max-w-2xl bg-black wireframe-border border-[#00E676] p-6 relative zero-radius max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b border-neutral-800 pb-3 mb-6">
+                <div class="flex items-center gap-2">
+                    <span class="w-3.5 h-3.5 bg-[#00E676]"></span>
+                    <h3 class="font-bold text-sm text-[#00E676] uppercase tracking-wider">UNLOCKED ARCHITECTURE SCHEMATIC</h3>
+                </div>
+                <button onclick="closeBlueprintModal()" class="text-neutral-500 hover:text-white text-sm font-mono">[ESC]</button>
+            </div>
+
+            <div class="space-y-4 text-xs">
+                <div>
+                    <h4 class="font-bold text-[#00E676] uppercase text-[10px] tracking-wider mb-1">SYSTEM IDENTIFIER</h4>
+                    <p class="text-sm font-bold text-white" id="success-title"></p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-[#00E676] uppercase text-[10px] tracking-wider mb-1">PLATFORM DEPENDENCIES</h4>
+                    <p class="text-neutral-300 font-mono" id="success-platforms"></p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-[#00E676] uppercase text-[10px] tracking-wider mb-1">CAPABILITY PARMS</h4>
+                    <ul class="list-disc pl-4 space-y-1 text-neutral-400" id="success-desc"></ul>
+                </div>
+
+                <div class="border-t border-neutral-900 pt-3">
+                    <div class="flex justify-between items-center mb-1">
+                        <h4 class="font-bold text-amber-500 uppercase text-[10px] tracking-wider">JSON MANIFEST SCHEMALESS PAYLOAD</h4>
+                        <button onclick="copyPayload()" class="text-[#00E5FF] hover:underline hover:text-white font-bold text-[10px]">[COPY SCHEMATIC]</button>
+                    </div>
+                    <pre id="success-payload" class="w-full bg-neutral-950 p-3 border border-neutral-800 text-[11px] text-[#00E676] overflow-x-auto whitespace-pre font-mono"></pre>
+                </div>
+
+                <div class="pt-4 flex gap-2">
+                    <button onclick="closeBlueprintModal()" class="flex-1 bg-neutral-900 text-white font-bold py-2.5 text-xs uppercase hover:bg-neutral-800">
+                        CLOSE BLUEPRINT
+                    </button>
+                    <a href="https://partners.distilledfunding.com" target="_blank" class="flex-1 bg-[#00E676] text-black font-bold py-2.5 text-xs uppercase hover:bg-white text-center flex items-center justify-center">
+                        INQUIRE BROKER INTEGRATION
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- INLINE SYSTEM SCRIPT CONTROLLER (CORE ENGINE) -->
+    <!-- ========================================================= -->
+    <script>
+        // System State Machine
+        let systemsData = [];
+        let filterType = null; // 'agent' | 'automation' | null
+        let searchQuery = '';
+
+        // Dynamic State DOM Nodes
+        const searchInput = document.getElementById('search-input');
+        const clearSearchBtn = document.getElementById('clear-search');
+        const directoryGrid = document.getElementById('directory-grid');
+        const resultsCount = document.getElementById('results-count');
+        const currentViewTag = document.getElementById('current-view-tag');
+        const agentCountDisplay = document.getElementById('agent-count');
+        const workflowCountDisplay = document.getElementById('workflow-count');
+        const noResultsAlert = document.getElementById('no-results');
+
+        // Modal Dom Hooks
+        const takeoverModal = document.getElementById('takeover-modal');
+        const modalSystemId = document.getElementById('modal-system-id');
+        const modalSystemType = document.getElementById('modal-system-type');
+        const formTargetSystem = document.getElementById('form-target-system');
+        
+        const blueprintModal = document.getElementById('blueprint-modal');
+        const successTitle = document.getElementById('success-title');
+        const successPlatforms = document.getElementById('success-platforms');
+        const successDesc = document.getElementById('success-desc');
+        const successPayload = document.getElementById('success-payload');
+
+        // 25 Strict AI Agent & Automation JSON profiles
+        const mockLibraryData = [
+            { "id": "ID-BCB-AI", "title": "BizCredit Builder AI Agent", "type": "agent", "category": "Business Credit", "platforms": "Next.js / Supabase / Velo API", "difficulty": "Intermediate", "code": "AFF-ROK", "desc": ["Automates EIN building structures", "Monitors trade line validation reporting", "Triggers step-by-step documentation logs"], "payload": "{\n  \"agent\": \"BizCredit Builder\",\n  \"version\": \"1.4.0\",\n  \"triggers\": [\"EIN_CREATED\", \"CREDIT_PULL\"],\n  \"actions\": [\"verify_tradeline\", \"generate_onboarding_checklists\"],\n  \"webhook_endpoint\": \"/api/webhooks/credit-builder\"\n}" },
+            { "id": "ID-SMC-ENG", "title": "Spot Market Breakeven Cockpit", "type": "automation", "category": "Logistics Financing", "platforms": "n8n / Twilio", "difficulty": "Advanced", "code": "ISO-DIRECT", "desc": ["Tracks real-time fuel and rate pricing metrics", "Automates invoice factoring pre-qualification", "Flags immediate route profitability metrics"], "payload": "{\n  \"automation\": \"Spot Market Breakeven Cockpit\",\n  \"trigger\": \"SPOT_RATE_ALERT\",\n  \"inputs\": [\"fuel_avg\", \"route_miles\", \"load_offer\"],\n  \"logical_branch\": \"if load_offer < minimum_breakeven_trigger then send_notification\"\n}" },
+            { "id": "ID-FAST-TRK", "title": "FastTrack Broker Pipeline Onboarding", "type": "automation", "category": "Partner Networks", "platforms": "Zapier / Google Sheets", "difficulty": "Beginner", "code": "AFF-INTERNAL", "desc": ["Direct portal configuration links for affiliate brokers", "Auto-pings broker leads into compliance verification channels", "Syncs status checks without manual sheet manipulation"], "payload": "{\n  \"app\": \"FastTrack Pipeline\",\n  \"trigger_event\": \"NEW_AFFILIATE_SIGNUP\",\n  \"tasks\": [\"push_google_sheets\", \"post_slack_compliance\", \"send_welcome_sms\"]\n}" },
+            { "id": "ID-MCA-SCR", "title": "MCA Underwriting Risk Scorer", "type": "agent", "category": "Underwriting Tools", "platforms": "OpenAI / Python API", "difficulty": "Advanced", "code": "UNDER-S9", "desc": ["Pre-analyzes bank statement deposits", "Parses daily ending balance fluctuations for alerts", "Outputs risk scores directly into CRM pipelines"], "payload": "{\n  \"engine\": \"Risk Underwriter Scorer\",\n  \"model\": \"gpt-4-turbo\",\n  \"system_prompt\": \"Analyze bank account transaction arrays to isolate daily debit clusters, cash advances, and negative ending balances.\"\n}" },
+            { "id": "ID-WIX-LNK", "title": "Wix Velo Direct Application Syncer", "type": "automation", "category": "Website Connectors", "platforms": "Wix Velo / Make.com", "difficulty": "Intermediate", "code": "WIX-DEV", "desc": ["Bypasses Wix native database limitations", "Routes applicant files directly to secured storage", "Pushes user context arrays directly into sales pipelines"], "payload": "{\n  \"connector\": \"Wix Velo Direct App Syncer\",\n  \"trigger_point\": \"wix_form_submission\",\n  \"destination_vault\": \"NextJS_Supabase_Secure\"\n}" },
+            { "id": "ID-REV-SHR", "title": "Revenue Share Split Tracker", "type": "automation", "category": "Commission Infrastructure", "platforms": "n8n / Postgres", "difficulty": "Advanced", "code": "PAY-SPLIT", "desc": ["Calculates multi-party funding splits dynamic", "Applies tiered agent payout rules", "Generates monthly performance logs for review"], "payload": "{\n  \"logic\": \"RevShare Split Calculator\",\n  \"tiered_split\": [0.05, 0.08, 0.12],\n  \"dependencies\": [\"database_ledger\", \"funding_cleared_event\"]\n}" },
+            { "id": "ID-SMS-NRT", "title": "Dynamic SMS Speed-To-Lead Nurturer", "type": "agent", "category": "Lead Funnels", "platforms": "Retell AI / Twilio", "difficulty": "Intermediate", "code": "NURTURE-M8", "desc": ["Responds to incoming application alerts in 45s", "Dynamically updates appointments inside calendars", "Validates core broker info during initial chat"], "payload": "{\n  \"agent\": \"SMS Speed-To-Lead Nurturer\",\n  \"voice_engine\": \"Retell-Custom\",\n  \"response_time_max\": \"45s\",\n  \"routing_logic\": \"if lead_verified then redirect_to_calendar_agent\"\n}" },
+            { "id": "ID-SBA-CHX", "title": "SBA Eligibility Checker Agent", "type": "agent", "category": "Business Funding", "platforms": "Anthropic Claude / React", "difficulty": "Intermediate", "code": "SBA-PRE", "desc": ["Qualifies business industries against SBA exclusion matrices", "Checks size requirements automatically", "Builds compliance summaries directly for review"], "payload": "{\n  \"component\": \"SBA Eligibility Checker\",\n  \"dataset\": \"SBA_EXCLUDED_INDUSTRIES_v2.1\",\n  \"output_format\": \"JSON_COMPLIANCE_REPORT\"\n}" },
+            { "id": "ID-CRM-BOT", "title": "Unified CRM Lead Pipeline State sync", "type": "automation", "category": "Lead Funnels", "platforms": "Zapier / HubSpot", "difficulty": "Beginner", "code": "CRM-SYNC", "desc": ["Prevents out-of-sync lead pipelines", "Updates statuses across multiple platforms simultaneously", "Logs user interactions for team tracking"], "payload": "{\n  \"workflow\": \"Unified CRM Pipeline State sync\",\n  \"trigger\": \"DEAL_STAGE_UPDATED\",\n  \"source\": \"CRM_Primary\",\n  \"targets\": [\"Slack_Notification\", \"Internal_Database_Audit_Log\"]\n}" },
+            { "id": "ID-DB-BAK", "title": "Secure Client Document Decryption Vault", "type": "automation", "category": "File Infrastructure", "platforms": "Supabase / Node.js", "difficulty": "Advanced", "code": "SEC-ENC", "desc": ["Encrypts static sensitive documents at rest", "Restricts temporary file access to authorized sessions only", "Checks document compliance patterns before unlock"], "payload": "{\n  \"vault\": \"Secure Client Document Decryption Vault\",\n  \"encryption_standard\": \"AES-256-GCM\",\n  \"allowed_roles\": [\"ADMIN\", \"SENIOR_UNDERWRITER\"]\n}" },
+            { "id": "ID-EML-CLF", "title": "B2B Email Intent Parsing Router", "type": "agent", "category": "Communications", "platforms": "OpenAI / Node-RED", "difficulty": "Intermediate", "code": "EML-AI", "desc": ["Classifies emails into high-intent and spam folders", "Pre-populates draft replies with accurate technical specs", "Flags urgent escalation queries instantly"], "payload": "{\n  \"engine\": \"B2B Email Parsing Router\",\n  \"classifications\": [\"HIGH_INTENT\", \"BILLING\", \"SPAM\", \"PARTNER_INQUIRY\"],\n  \"draft_trigger\": \"OPENAI_COMPLETIONS_API\"\n}" },
+            { "id": "ID-STK-AUD", "title": "Tech Stack Compatibility Evaluator", "type": "agent", "category": "Audit Tools", "platforms": "Next.js / Tailwind", "difficulty": "Beginner", "code": "AUDIT-101", "desc": ["Tracks active database platforms to identify software conflicts", "Generates target integration maps", "Scores operational readiness automatically"], "payload": "{\n  \"tool\": \"Tech Stack Compatibility Evaluator\",\n  \"ruleset_version\": \"v1.1\",\n  \"scoring_algorithm\": \"operational_readiness_v1\"\n}" }
+        ];
+
+        // System Core Load sequence
+        window.addEventListener('DOMContentLoaded', () => {
+            // Load and hydrate systems
+            systemsData = mockLibraryData;
+            calculateCapacityMetrics();
+            renderDirectory();
+
+            // Set up search event listeners
+            searchInput.addEventListener('input', (e) => {
+                searchQuery = e.target.value.toLowerCase().trim();
+                if (searchQuery) {
+                    clearSearchBtn.classList.remove('hidden');
+                } else {
+                    clearSearchBtn.classList.add('hidden');
+                }
+                renderDirectory();
+            });
+
+            clearSearchBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                searchQuery = '';
+                clearSearchBtn.classList.add('hidden');
+                renderDirectory();
+            });
+        });
+
+        // Calculate and Render Active Stats
+        function calculateCapacityMetrics() {
+            const agents = systemsData.filter(sys => sys.type === 'agent').length;
+            const workflows = systemsData.filter(sys => sys.type === 'automation').length;
+            
+            agentCountDisplay.textContent = agents;
+            workflowCountDisplay.textContent = workflows;
+        }
+
+        // Render Cards based on Filters and State
+        function renderDirectory() {
+            // Filter Logic
+            let filtered = systemsData.filter(sys => {
+                // Type filter
+                if (filterType && sys.type !== filterType) return false;
+                
+                // Text Search query mapping
+                if (searchQuery) {
+                    const matchTitle = sys.title.toLowerCase().includes(searchQuery);
+                    const matchCategory = sys.category.toLowerCase().includes(searchQuery);
+                    const matchId = sys.id.toLowerCase().includes(searchQuery);
+                    const matchPlatforms = sys.platforms.toLowerCase().includes(searchQuery);
+                    const matchDesc = sys.desc.some(d => d.toLowerCase().includes(searchQuery));
+                    
+                    return (matchTitle || matchCategory || matchId || matchPlatforms || matchDesc);
+                }
+                return true;
+            });
+
+            // Update UI Counters
+            resultsCount.textContent = `FOUND: ${filtered.length} ARCHITECTURES`;
+            
+            // Build UI Cards
+            directoryGrid.innerHTML = '';
+            if (filtered.length === 0) {
+                noResultsAlert.classList.remove('hidden');
+                directoryGrid.classList.add('hidden');
+            } else {
+                noResultsAlert.classList.add('hidden');
+                directoryGrid.classList.remove('hidden');
+
+                filtered.forEach(sys => {
+                    const isAgent = sys.type === 'agent';
+                    const accentColor = isAgent ? '#00E5FF' : '#00E676';
+                    const activeBorder = isAgent ? 'hover:border-[#00E5FF]' : 'hover:border-[#00E676]';
+                    
+                    const card = document.createElement('div');
+                    card.className = `wireframe-border bg-black p-5 flex flex-col justify-between gap-5 transition-all duration-200 ${activeBorder} zero-radius relative group`;
+                    
+                    // Capability listing bullets
+                    const descBullets = sys.desc.map(b => `<li class="relative pl-3 flex items-start gap-1"><span class="text-[9px] mt-0.5" style="color: ${accentColor}">►</span><span>${b}</span></li>`).join('');
+
+                    card.innerHTML = `
+                        <!-- Card Header -->
+                        <div>
+                            <div class="flex justify-between items-start gap-2 mb-2">
+                                <span class="text-[9.5px] uppercase font-bold tracking-widest px-2.5 py-0.5" style="background-color: ${accentColor}1A; color: ${accentColor}">
+                                    ${sys.category}
+                                </span>
+                                <span class="text-neutral-500 text-[10px] font-mono">${sys.id}</span>
+                            </div>
+                            <h3 class="text-base font-bold tracking-tight text-white group-hover:text-white mb-2">${sys.title}</h3>
+                            
+                            <!-- Telemetry Meta Block -->
+                            <div class="border-t border-b border-neutral-900 py-2 my-3 grid grid-cols-2 gap-1.5 text-[10px] text-neutral-400 font-mono">
+                                <div>PLATFORM: <span class="text-white">${sys.platforms}</span></div>
+                                <div>DIFFICULTY: <span class="text-white uppercase">${sys.difficulty}</span></div>
+                            </div>
+
+                            <!-- Highlights -->
+                            <ul class="text-xs text-neutral-400 space-y-1.5 font-sans leading-relaxed">
+                                ${descBullets}
+                            </ul>
+                        </div>
+
+                        <!-- Card Action -->
+                        <div class="pt-2">
+                            <button 
+                                onclick="inspectBlueprint('${sys.id}')"
+                                class="w-full wireframe-border py-2.5 px-4 text-xs font-bold text-center uppercase tracking-wider transition-all duration-150 text-white bg-neutral-950 hover:bg-white hover:text-black zero-radius"
+                            >
+                                INSPECT BLUEPRINT // LOCK_ACCESS
+                            </button>
+                        </div>
+                    `;
+                    directoryGrid.appendChild(card);
+                });
+            }
+        }
+
+        // Toggle System filtering
+        function toggleSystemType(type) {
+            const agentBtn = document.getElementById('filter-agent-btn');
+            const autoBtn = document.getElementById('filter-automation-btn');
+            const agentDot = document.getElementById('agent-active-dot');
+            const autoDot = document.getElementById('automation-active-dot');
+
+            if (filterType === type) {
+                // If clicked active, clear it
+                filterType = null;
+                currentViewTag.textContent = "VIEW_ALL_NODES";
+                currentViewTag.style.color = "#00E5FF";
+                
+                resetFilterButtonsStyles();
+            } else {
+                filterType = type;
+                if (type === 'agent') {
+                    currentViewTag.textContent = "VIEW_AGENTS_ONLY";
+                    currentViewTag.style.color = "#00E5FF";
+
+                    agentBtn.className = "group relative wireframe-border bg-black text-[#00E5FF] border-[#00E5FF] p-6 text-left transition-all duration-300 zero-radius cursor-pointer";
+                    agentDot.className = "w-2.5 h-2.5 bg-[#00E5FF] blink";
+
+                    autoBtn.className = "group relative wireframe-border bg-white text-black p-6 text-left transition-all duration-300 hover:bg-[#00E676]/10 hover:text-white zero-radius cursor-pointer";
+                    autoDot.className = "w-2.5 h-2.5 bg-neutral-200";
+                } else {
+                    currentViewTag.textContent = "VIEW_AUTOMATIONS_ONLY";
+                    currentViewTag.style.color = "#00E676";
+
+                    autoBtn.className = "group relative wireframe-border bg-black text-[#00E676] border-[#00E676] p-6 text-left transition-all duration-300 zero-radius cursor-pointer";
+                    autoDot.className = "w-2.5 h-2.5 bg-[#00E676] blink";
+
+                    agentBtn.className = "group relative wireframe-border bg-white text-black p-6 text-left transition-all duration-300 hover:bg-[#00E5FF]/10 hover:text-white zero-radius cursor-pointer";
+                    agentDot.className = "w-2.5 h-2.5 bg-neutral-200";
+                }
+            }
+            renderDirectory();
+        }
+
+        function resetFilterButtonsStyles() {
+            const agentBtn = document.getElementById('filter-agent-btn');
+            const autoBtn = document.getElementById('filter-automation-btn');
+            const agentDot = document.getElementById('agent-active-dot');
+            const autoDot = document.getElementById('automation-active-dot');
+
+            agentBtn.className = "group relative wireframe-border bg-white text-black p-6 text-left transition-all duration-300 hover:bg-[#00E5FF]/10 hover:text-white zero-radius cursor-pointer";
+            autoBtn.className = "group relative wireframe-border bg-white text-black p-6 text-left transition-all duration-300 hover:bg-[#00E676]/10 hover:text-white zero-radius cursor-pointer";
+            
+            agentDot.className = "w-2.5 h-2.5 bg-[#00E5FF]";
+            autoDot.className = "w-2.5 h-2.5 bg-[#00E676]";
+        }
+
+        // Reset Filter State Machine
+        function resetFilters() {
+            filterType = null;
+            searchQuery = '';
+            searchInput.value = '';
+            clearSearchBtn.classList.add('hidden');
+            currentViewTag.textContent = "VIEW_ALL_NODES";
+            currentViewTag.style.color = "#00E5FF";
+            resetFilterButtonsStyles();
+            renderDirectory();
+        }
+
+        // Handle Inspect triggers -> Triggers lead gen audit
+        function inspectBlueprint(id) {
+            const systemObj = systemsData.find(sys => sys.id === id);
+            if (!systemObj) return;
+
+            // Track target system inside registration modal
+            formTargetSystem.value = systemObj.id;
+            modalSystemId.textContent = systemObj.id;
+            modalSystemType.textContent = systemObj.type;
+
+            // Slide open registration takeover modal
+            takeoverModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeTakeoverModal() {
+            takeoverModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Form Submit -> Audit Completion Lead Capture
+        function handleAuditSubmit(e) {
+            e.preventDefault();
+
+            const systemId = formTargetSystem.value;
+            const systemObj = systemsData.find(sys => sys.id === systemId);
+            
+            // Capture lead operational telemetry variables
+            const legacyStackValue = document.getElementById('form-legacy-stack').value;
+            const bottleneckValue = document.getElementById('form-bottleneck').value;
+            const emailValue = document.getElementById('form-email').value;
+
+            // Process payload logging to verify Lead Delivery in telemetry logs
+            console.log("LEAD_CAPTURED // PROCESSING_INTEGRATION_AUDIT", {
+                system: systemId,
+                email: emailValue,
+                legacy_stack: legacyStackValue,
+                bottleneck: bottleneckValue,
+                timestamp: new Date().toISOString()
+            });
+
+            // Clean form inputs
+            document.getElementById('audit-lead-form').reset();
+            closeTakeoverModal();
+
+            // Populate and reveal unlocked success modal
+            successTitle.textContent = `${systemObj.title} [${systemObj.id}]`;
+            successPlatforms.textContent = systemObj.platforms;
+            successDesc.innerHTML = systemObj.desc.map(d => `<li>${d}</li>`).join('');
+            successPayload.textContent = systemObj.payload;
+
+            blueprintModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeBlueprintModal() {
+            blueprintModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Copy System Schema variables directly to user clipboard
+        function copyPayload() {
+            const codeContent = successPayload.textContent;
+            
+            // Fallback clipboard protocol to accommodate sandbox limits
+            const textBuffer = document.createElement("textarea");
+            textBuffer.value = codeContent;
+            textBuffer.style.position = "fixed";
+            document.body.appendChild(textBuffer);
+            textBuffer.select();
+            
+            try {
+                document.execCommand('copy');
+                const copyBtn = document.querySelector('[onclick="copyPayload()"]');
+                copyBtn.textContent = "[COPIED_SUCCESSFULLY]";
+                copyBtn.style.color = "#00E676";
+                setTimeout(() => {
+                    copyBtn.textContent = "[COPY SCHEMATIC]";
+                    copyBtn.style.color = "#00E5FF";
+                }, 2000);
+            } catch (err) {
+                console.error("FAILED_TO_COPY_TELEMETRY_PAYLOAD", err);
+            }
+            document.body.removeChild(textBuffer);
+        }
+
+        // Catch ESC key patterns globally
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeTakeoverModal();
+                closeBlueprintModal();
+            }
+        });
+    </script>
+</body>
+</html>
