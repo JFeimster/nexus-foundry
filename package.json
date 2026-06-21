@@ -1,12 +1,10 @@
 {
-"name": "nexus-foundry",
-"private": true,
-"workspaces": [
-"apps/",
-"packages/"
-],
-"scripts": {
-"dev": "npm run dev --workspaces --if-present",
-"build": "npm run build --workspaces --if-present"
-}
+  "name": "nexus-foundry",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Digital Asset & Tool Foundry for Moonshine Capital",
+  "scripts": {
+    "dev": "echo 'Run dev inside specific app folder (e.g., cd apps/tools && npm run dev)'",
+    "build": "echo 'Vercel will build target directories independently using root directory overrides.'"
+  }
 }
