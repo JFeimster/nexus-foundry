@@ -23,4 +23,9 @@
     }
   ],
   "rewrites": [
-    { "source": "/api/library
+    { 
+      "source": "/api/library-data", 
+      "destination": "/library-data.json" 
+    }
+  ]
+}
